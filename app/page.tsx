@@ -21,7 +21,7 @@ export default function Page() {
 
       {/* Contenido Editorial Principal */}
       <section className="coming-content" aria-labelledby="coming-title">
-        <p className="coming-kicker">Producto artesanal de origen</p>
+        <p className="coming-kicker">Producto artesanal completamente de origen</p>
         
         {/* Bajada con tamaño menor preexistente */}
         <p className="coming-intro">Estamos preparando</p>
