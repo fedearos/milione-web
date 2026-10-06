@@ -1,33 +1,22 @@
-import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
+const markIcon = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/icono-iccTwYD08xRnLdqCUOFFRr3y6dkUe0.png'
+
 export const metadata: Metadata = {
   title: 'Milione | Próximamente',
-  description: 'Estamos preparando nuestra nueva vidriera digital. Chacinados Milione, producto artesanal en Chacabuco.',
+  description: 'Estamos preparando nuestra nueva vidriera digital. Chacinados Milione, producto artesanal de origen en Chacabuco.',
   generator: 'Next.js',
   icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: markIcon,
+    shortcut: markIcon,
+    apple: markIcon,
   },
 }
 
 export const viewport: Viewport = {
   colorScheme: 'dark',
-  themeColor: '#170b0b',
+  themeColor: '#170909',
   width: 'device-width',
   initialScale: 1,
   userScalable: true,
@@ -42,7 +31,6 @@ export default function RootLayout({
     <html lang="es">
       <body className="antialiased">
         {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
   )

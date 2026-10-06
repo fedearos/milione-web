@@ -9,29 +9,55 @@ export default function Page() {
     <main className="coming-shell">
       <div className="coming-photo" style={{ backgroundImage: `url(${heroImage})` }} aria-hidden="true" />
       <div className="coming-overlay" aria-hidden="true" />
+      
+      {/* Cabecera con Marca e Isotipo del Chanchito integrado al lado */}
       <header className="coming-header">
-        <img src={logo} alt="Milione chacinados, producto artesanal" />
+        <div className="coming-header-brand">
+          <img src={logo} alt="Milione Chacinados" className="coming-header-logo" />
+          <img src={mark} alt="" className="coming-header-mark" aria-hidden="true" />
+        </div>
         <span>Chacabuco · Buenos Aires</span>
       </header>
+
+      {/* Contenido Editorial Principal */}
       <section className="coming-content" aria-labelledby="coming-title">
-        <p className="coming-kicker">Producto artesanal · Desde 1997</p>
-        <div className="coming-brand">
-          <img src={logo} alt="Milione" />
-          <img className="coming-mark" src={mark} alt="" />
-        </div>
+        <p className="coming-kicker">Producto artesanal de origen</p>
+        
+        {/* Bajada con tamaño menor preexistente */}
         <p className="coming-intro">Estamos preparando</p>
-        <h1 id="coming-title">nuestra nueva<br /><em>vidriera digital.</em></h1>
+        
+        {/* Título de 2 líneas restante */}
+        <h1 id="coming-title" className="coming-headline">
+          nuestra nueva<br />
+          <em>vidriera digital.</em>
+        </h1>
+        
         <div className="coming-divider" />
         <p className="coming-soon">Próximamente</p>
         <p className="coming-note">Una nueva forma de descubrir nuestros sabores, conocer nuestra historia y hacer tu pedido.</p>
       </section>
+
+      {/* Pie de página con datos de contacto */}
       <footer className="coming-footer">
-        <a href="https://maps.google.com/?q=Santa+Fe+99,+Chacabuco" target="_blank" rel="noreferrer"><MapPin aria-hidden="true" />Santa Fe 99 · Chacabuco</a>
-        <a href="tel:+5492352469120"><Phone aria-hidden="true" />02352 15469120 / 15495477</a>
+        <a href="https://maps.google.com/?q=Santa+Fe+99,+Chacabuco" target="_blank" rel="noreferrer">
+          <MapPin aria-hidden="true" />Santa Fe 99 · Chacabuco
+        </a>
+        <a href="tel:+542352471745">
+          <Phone aria-hidden="true" />+54 2352 47-1745
+        </a>
         <span>© {new Date().getFullYear()} Milione</span>
       </footer>
-      <a className="whatsapp-float coming-whatsapp" href="https://wa.me/5492352469120?text=Hola%20Milione%2C%20quiero%20hacer%20una%20consulta" target="_blank" rel="noreferrer" aria-label="Consultar por WhatsApp">
-        <MessageCircle aria-hidden="true" /><span>Consultas<br />y pedidos</span>
+
+      {/* Flotante WhatsApp */}
+      <a 
+        className="whatsapp-float coming-whatsapp" 
+        href="https://wa.me/5492352469120?text=Hola%2C%20Vengo%20de%20la%20web%20y%20quiero%20hacer%20una%20consulta" 
+        target="_blank" 
+        rel="noreferrer" 
+        aria-label="Consultar por WhatsApp"
+      >
+        <MessageCircle aria-hidden="true" />
+        <span>Consultas<br />y pedidos</span>
       </a>
     </main>
   )

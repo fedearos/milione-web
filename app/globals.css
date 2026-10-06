@@ -12,137 +12,75 @@
 
 * { box-sizing: border-box; }
 html, body { min-height: 100%; }
-body { margin: 0; background: var(--wine-dark); color: var(--cream); font-family: Arial, Helvetica, sans-serif; }
+body { margin: 0; background: var(--wine-dark); color: var(--cream); font-family: Arial, Helvetica, sans-serif; min-width: 320px; }
 a { color: inherit; text-decoration: none; }
 
 .coming-shell { background: var(--wine-dark); min-height: 100svh; overflow: hidden; position: relative; isolation: isolate; }
 .coming-photo, .coming-overlay { inset: 0; position: absolute; }
-.coming-photo { background-position: center; background-size: cover; filter: saturate(.72); z-index: -2; }
+.coming-photo { background-position: center; background-size: cover; filter: saturate(.72); z-index: -2; will-change: transform; }
 .coming-overlay { background: linear-gradient(90deg, rgba(20, 5, 6, .95) 0%, rgba(38, 8, 10, .79) 45%, rgba(20, 5, 6, .58) 100%), linear-gradient(0deg, rgba(12, 3, 3, .96) 0%, transparent 40%, rgba(15, 3, 4, .52) 100%); z-index: -1; }
-.coming-header { align-items: center; display: flex; justify-content: space-between; left: 0; padding: 2rem clamp(1.5rem, 6vw, 6rem); position: absolute; right: 0; top: 0; }
-.coming-header img { filter: brightness(0) invert(1); max-width: 154px; width: 30vw; }
+
+/* Cabecera con marca integrada */
+.coming-header { align-items: center; display: flex; justify-content: space-between; left: 0; padding: 2rem clamp(1.5rem, 6vw, 6rem); position: absolute; right: 0; top: 0; z-index: 10; }
+.coming-header-brand { align-items: center; display: flex; gap: .75rem; }
+.coming-header-logo { filter: brightness(0) invert(1); max-width: 154px; width: 28vw; display: block; }
+.coming-header-mark { filter: none; height: 38px; object-fit: contain; width: 38px; display: block; }
 .coming-header span { color: var(--text-soft); font-size: .62rem; letter-spacing: .19em; text-transform: uppercase; }
-.coming-content { display: flex; flex-direction: column; justify-content: center; min-height: 100svh; max-width: 660px; padding: 8rem clamp(1.5rem, 11vw, 11rem) 9rem; }
-.coming-kicker { color: var(--gold); font-size: .67rem; letter-spacing: .25em; margin: 0 0 2.4rem; text-transform: uppercase; }
-.coming-brand { align-items: center; display: flex; gap: 1.25rem; margin-bottom: 3.2rem; }
-.coming-brand > img:first-child { filter: brightness(0) invert(1); max-width: 245px; width: min(52vw, 245px); }
-.coming-mark { filter: none; height: 74px; object-fit: contain; width: 74px; }
-.coming-intro { color: var(--text-soft); font-family: Georgia, serif; font-size: clamp(1.25rem, 2vw, 1.7rem); margin: 0 0 .45rem; }
-.coming-content h1 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(3.15rem, 6vw, 6.4rem); font-weight: 400; letter-spacing: -.065em; line-height: .91; margin: 0; }
-.coming-content h1 em { color: var(--gold); font-style: italic; }
-.coming-divider { background: var(--gold); height: 1px; margin: 2.5rem 0 1.35rem; opacity: .75; width: 5.5rem; }
-.coming-soon { color: var(--cream); font-family: Georgia, serif; font-size: clamp(2rem, 4vw, 3.5rem); margin: 0; }
-.coming-note { color: var(--text-soft); font-size: .9rem; line-height: 1.65; margin: 1.3rem 0 0; max-width: 27rem; }
-.coming-footer { align-items: center; bottom: 2rem; color: rgba(245, 237, 225, .62); display: flex; flex-wrap: wrap; font-size: .62rem; gap: .6rem 1.8rem; left: clamp(1.5rem, 6vw, 6rem); letter-spacing: .09em; position: absolute; text-transform: uppercase; }
+
+/* Contenido Principal */
+.coming-content { display: flex; flex-direction: column; justify-content: center; min-height: 100svh; max-width: 720px; padding: 7rem clamp(1.5rem, 8vw, 8rem) 8rem; position: relative; z-index: 2; }
+.coming-kicker { color: var(--gold); font-size: .67rem; letter-spacing: .25em; margin: 0 0 1.5rem; text-transform: uppercase; }
+
+/* Texto menor para la introducción */
+.coming-intro { color: var(--text-soft); font-family: Georgia, serif; font-size: clamp(1.2rem, 2.2vw, 1.7rem); margin: 0 0 .5rem; font-weight: 400; }
+
+/* Título principal */
+.coming-headline { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.5rem, 5.8vw, 5.2rem); font-weight: 400; letter-spacing: -.03em; line-height: 1.05; margin: 0; }
+.coming-headline br { display: block; }
+.coming-headline em { color: var(--gold); font-style: italic; font-family: Georgia, 'Times New Roman', serif; }
+
+.coming-divider { background: var(--gold); height: 1px; margin: 2.2rem 0 1.2rem; opacity: .75; width: 5.5rem; }
+.coming-soon { color: var(--cream); font-family: Georgia, serif; font-size: clamp(1.8rem, 3.5vw, 3rem); margin: 0; }
+.coming-note { color: var(--text-soft); font-size: .9rem; line-height: 1.65; margin: 1.2rem 0 0; max-width: 27rem; }
+
+/* Pie de página y Botón WhatsApp */
+.coming-footer { align-items: center; bottom: 2rem; color: rgba(245, 237, 225, .62); display: flex; flex-wrap: wrap; font-size: .62rem; gap: .6rem 1.8rem; left: clamp(1.5rem, 6vw, 6rem); letter-spacing: .09em; position: absolute; text-transform: uppercase; z-index: 10; }
 .coming-footer a { align-items: center; display: inline-flex; gap: .4rem; }
 .coming-footer svg { color: var(--gold); height: .85rem; width: .85rem; }
-.whatsapp-float { align-items: center; background: #198d59; border: 2px solid var(--cream); border-radius: 3px; bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,.35); color: white; display: flex; gap: .55rem; padding: .65rem .9rem .65rem .7rem; position: fixed; right: clamp(1.5rem, 6vw, 6rem); z-index: 3; }
-.whatsapp-float svg { height: 1.7rem; width: 1.7rem; }
+
+.whatsapp-float { align-items: center; background: #198d59; border: 2px solid var(--cream); border-radius: 3px; bottom: 2rem; box-shadow: 0 10px 30px rgba(0,0,0,.35); color: white; display: flex; gap: .55rem; padding: .65rem .9rem .65rem .7rem; position: fixed; right: clamp(1.5rem, 6vw, 6rem); z-index: 20; }
+.whatsapp-float svg { height: 1.7rem; width: 1.7rem; flex: 0 0 auto; }
 .whatsapp-float span { font-size: .62rem; font-weight: 700; line-height: 1.15; text-transform: uppercase; }
+
+/* Responsive Media Queries */
 @media (max-width: 640px) {
   .coming-header { padding: 1.35rem 1.2rem; }
-  .coming-header img { max-width: 125px; }
+  .coming-header-logo { max-width: 125px; }
+  .coming-header-mark { height: 30px; width: 30px; }
   .coming-header span { display: none; }
   .coming-photo { background-position: 59% center; }
   .coming-overlay { background: linear-gradient(0deg, rgba(20, 5, 6, .97) 4%, rgba(30, 7, 8, .7) 65%, rgba(20, 5, 6, .7)); }
-  .coming-content { justify-content: flex-end; min-height: 100svh; padding: 7rem 1.2rem 10rem; }
-  .coming-kicker { font-size: .58rem; margin-bottom: 1.7rem; }
-  .coming-brand { margin-bottom: 2.4rem; }
-  .coming-brand > img:first-child { width: 190px; }
-  .coming-mark { height: 56px; width: 56px; }
-  .coming-content h1 { font-size: clamp(3rem, 14vw, 4.4rem); }
-  .coming-divider { margin: 1.8rem 0 1rem; }
+  .coming-content { justify-content: flex-end; min-height: 100svh; padding: 6rem 1.2rem 8.5rem; }
+  .coming-kicker { font-size: .58rem; margin-bottom: 1rem; }
+  .coming-intro { font-size: 1.15rem; }
+  .coming-headline { font-size: clamp(2.1rem, 9vw, 3.2rem); line-height: 1.1; }
+  .coming-divider { margin: 1.5rem 0 1rem; }
   .coming-note { font-size: .8rem; max-width: 20rem; }
   .coming-footer { bottom: 1.2rem; flex-direction: column; align-items: flex-start; gap: .35rem; left: 1.2rem; }
   .whatsapp-float { bottom: 1.2rem; padding: .55rem .7rem .55rem .6rem; right: 1.2rem; }
 }
-@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
-:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
-@layer base { * { @apply border-border outline-ring/50; } }
-@theme inline { --color-background: var(--wine-dark); --color-foreground: var(--cream); --color-primary: var(--wine); }
-@media (hover: hover) { .whatsapp-float { transition: transform .25s ease, box-shadow .25s ease; } .whatsapp-float:hover { box-shadow: 0 14px 35px rgba(0,0,0,.45); transform: translateY(-3px); } }
-img { max-width: 100%; }
 
-@supports (text-wrap: balance) { h1 { text-wrap: balance; } }
+@media (max-width: 380px) {
+  .coming-intro { font-size: 1.05rem; }
+  .coming-headline { font-size: 1.85rem; }
+  .whatsapp-float span { display: none; }
+  .whatsapp-float { border-radius: 50%; padding: .65rem; }
+}
 
-/* Compatibilidad con el componente de contacto reutilizado. */
-.whatsapp-float svg { flex: 0 0 auto; }
+@media (hover: hover) {
+  .whatsapp-float { transition: transform .25s ease, box-shadow .25s ease; }
+  .whatsapp-float:hover { box-shadow: 0 14px 35px rgba(0,0,0,.45); transform: translateY(-3px); }
+}
 
-@layer base { :root { --border: rgba(245, 237, 225, .18); --ring: var(--gold); } }
-
-/* Evita que el contenido quede oculto en navegadores sin svh. */
-@supports not (height: 100svh) { .coming-shell, .coming-content { min-height: 100vh; } }
-
-/* El diseño no depende del modo oscuro del sistema: la pieza es deliberadamente nocturna. */
-::selection { background: var(--gold); color: var(--wine-dark); }
-
-/* Asegura una lectura correcta del texto sobre la fotografía. */
 .coming-content, .coming-header, .coming-footer { text-shadow: 0 1px 18px rgba(0,0,0,.18); }
-
-/* Elimina el espacio inline residual de las imágenes de marca. */
-.coming-header img, .coming-brand img { display: block; }
-
-/* El botón conserva proporciones cómodas en pantallas angostas. */
-@media (max-width: 380px) { .whatsapp-float span { display: none; } .whatsapp-float { border-radius: 50%; padding: .65rem; } }
-
-/* tokens mínimos requeridos por shadcn/tailwind. */
-@theme inline { --color-border: var(--border); --color-ring: var(--ring); }
-
-/* fin de la landing temporal */
-body { min-width: 320px; }
-
-/* no hay navegación secundaria en esta versión de espera */
-.coming-shell a { -webkit-tap-highlight-color: transparent; }
-
-/* contraste adicional para pantallas con brillo alto */
-@media (prefers-contrast: more) { .coming-overlay { background: rgba(12, 2, 3, .84); } }
-
-/* fin */
-
-
-/* preserve line wrapping in the editorial headline */
-.coming-content h1 br { display: block; }
-
-/* final reset */
-button, input { font: inherit; }
-
-/* EOF */
-
-@layer base { html { color-scheme: dark; } }
-
-/* End of temporary construction page. */
-
-/* Keep the reference's generous breathing room. */
-.coming-content > * { max-width: 100%; }
-
-/* Accessible hidden decorative marks remain announced only through adjacent content. */
-.coming-mark { pointer-events: none; }
-
-/* final */
-
-/* responsive safe area */
-@supports (padding: max(0px)) { .coming-footer { padding-bottom: max(0px, env(safe-area-inset-bottom)); } }
-
-/* end */
-
-/* Typography fallback for the final composition. */
-.coming-content em { font-family: Georgia, 'Times New Roman', serif; }
-
-/* end of file */
-
-/* Keep the page intentionally single-screen, matching the supplied mockup. */
-.coming-shell { min-height: 100vh; }
-.coming-content { min-height: 100vh; }
-@media (max-width: 640px) { .coming-content { min-height: 100vh; } }
-
-/* No further sections in the temporary version. */
-
-/* final declaration */
-.coming-photo { will-change: transform; }
-
-/* End. */
-
-/* Last accessibility guard */
-@media (prefers-reduced-motion: reduce) { .coming-photo { will-change: auto; } }
-
-/* done */
+::selection { background: var(--gold); color: var(--wine-dark); }
