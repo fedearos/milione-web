@@ -1,36 +1,47 @@
 import type { Metadata, Viewport } from 'next'
+import { Inter, Playfair_Display } from 'next/font/google'
+import { MessageCircle } from 'lucide-react'
+import Navbar from '@/components/navbar'
 import './globals.css'
 
-const markIcon = 'https://hebbkx1anhila5yf.public.blob.vercel-storage.com/icono-iccTwYD08xRnLdqCUOFFRr3y6dkUe0.png'
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
+const playfair = Playfair_Display({ subsets: ['latin'], variable: '--font-playfair' })
+
+// Apuntamos a la imagen local
+const markIcon = '/images/icono.png'
 
 export const metadata: Metadata = {
-  title: 'Milione | Próximamente',
-  description: 'Estamos preparando nuestra nueva vidriera digital. Chacinados Milione, producto artesanal de origen en Chacabuco.',
-  generator: 'Next.js',
-  icons: {
-    icon: markIcon,
-    shortcut: markIcon,
-    apple: markIcon,
-  },
+  title: 'Chacinados Milione | Producto artesanal de origen',
+  description: 'Fábrica artesanal de chacinados en Chacabuco. Descubrí nuestra historia y catálogo de productos.',
+  icons: { icon: markIcon, shortcut: markIcon, apple: markIcon },
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
   themeColor: '#170909',
   width: 'device-width',
   initialScale: 1,
-  userScalable: true,
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body className="antialiased">
-        {children}
+    <html lang="es" className="scroll-smooth">
+      <body className={`${inter.variable} ${playfair.variable} font-sans bg-(--wine-dark) text-(--cream) antialiased min-h-screen flex flex-col`}>
+        <Navbar />
+        
+        <main className="grow">
+          {children}
+        </main>
+
+        <a 
+          className="whatsapp-float" 
+          href="https://wa.me/5492352469120?text=Hola%2C%20Vengo%20de%20la%20web%20y%20quiero%20hacer%20una%20consulta" 
+          target="_blank" 
+          rel="noreferrer" 
+          aria-label="Consultar por WhatsApp"
+        >
+          <MessageCircle aria-hidden="true" />
+          <span>Consultas<br />y pedidos</span>
+        </a>
       </body>
     </html>
   )

@@ -3,11 +3,25 @@
 @import 'shadcn/tailwind.css';
 
 :root {
+  /* Tus variables actuales */
   --wine: #720f15;
   --wine-dark: #170909;
   --cream: #f5ede1;
   --gold: #d4bd82;
   --text-soft: rgba(245, 237, 225, .76);
+
+  /* Mapeo para los componentes UI (Button, Inputs, etc.) */
+  --primary: var(--gold);
+  --primary-foreground: var(--wine-dark);
+  
+  --secondary: var(--wine);
+  --secondary-foreground: var(--cream);
+  
+  --background: var(--wine-dark);
+  --foreground: var(--cream);
+  
+  --border: color-mix(in srgb, var(--gold) 20%, transparent);
+  --ring: var(--gold);
 }
 
 * { box-sizing: border-box; }
