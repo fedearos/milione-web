@@ -1,9 +1,16 @@
 import { MapPin, Phone, Clock } from 'lucide-react'
-import { catalogData } from '@/data/catalog'
+import { getProductsFromSheets, getContentImagesBySection } from '@/lib/sheets'
 
 const heroImage = '/images/hero.webp'
 
-export default function HomePage() {
+export default async function HomePage() {
+  // 1. Lectura en paralelo desde Google Sheets (con ISR de 1 hora)
+  const [products, fotosTradicion, fotosHistoria] = await Promise.all([
+    getProductsFromSheets(),
+    getContentImagesBySection('tradicion'),
+    getContentImagesBySection('historia'),
+  ])
+
   return (
     <div className="flex flex-col w-full">
       {/* 1. PORTADA (HERO SECTION) */}
@@ -38,14 +45,15 @@ export default function HomePage() {
             </a>
             <a 
               href="#contacto" 
-className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase tracking-widest text-xs font-bold hover:border-(--gold) hover:text-(--gold) transition-colors text-center"            >
+              className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase tracking-widest text-xs font-bold hover:border-(--gold) hover:text-(--gold) transition-colors text-center"
+            >
               Contacto
             </a>
           </div>
         </div>
       </section>
 
-      {/* 2. BLOQUE INTRODUCTORIO */}
+      {/* 2. BLOQUE INTRODUCTORIO (Fotos desde fotosContenido?seccion=tradicion) */}
       <section className="py-20 px-6 max-w-7xl mx-auto w-full border-b border-(--gold)/10">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
@@ -60,17 +68,35 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="aspect-square bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/60 text-xs text-center p-4">
-              [Foto: Marcelo trabajando]
-            </div>
-            <div className="aspect-3/4 bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/60 text-xs text-center p-4 translate-y-6">
-              [Foto: Secadero de fiambres]
-            </div>
+            {fotosTradicion.length >= 2 ? (
+              fotosTradicion.slice(0, 2).map((foto, idx) => (
+                <div 
+                  key={foto.id || idx} 
+                  className={`relative overflow-hidden border border-(--gold)/20 rounded-sm bg-(--wine)/30 ${idx === 1 ? 'aspect-3/4 translate-y-6' : 'aspect-square'}`}
+                >
+                  <img src={foto.url} alt={foto.title || 'Tradición Milione'} className="w-full h-full object-cover" />
+                  {foto.title && (
+                    <span className="absolute bottom-2 left-2 right-2 text-[10px] bg-black/60 text-(--cream) p-1 text-center font-serif">
+                      {foto.title}
+                    </span>
+                  )}
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="aspect-square bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/60 text-xs text-center p-4">
+                  [Foto: Marcelo trabajando]
+                </div>
+                <div className="aspect-3/4 bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/60 text-xs text-center p-4 translate-y-6">
+                  [Foto: Secadero de fiambres]
+                </div>
+              </>
+            )}
           </div>
         </div>
       </section>
 
-      {/* 3. NOSOTROS / HISTORIA */}
+      {/* 3. NOSOTROS / HISTORIA (Fotos desde fotosContenido?seccion=historia) */}
       <section id="nosotros" className="py-24 px-6 max-w-7xl mx-auto w-full">
         <div className="grid md:grid-cols-2 gap-16 items-center">
           <div>
@@ -83,13 +109,26 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
             </p>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="aspect-square bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/50 text-sm">Foto Historia 1</div>
-            <div className="aspect-3/4 bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/50 text-sm translate-y-8">Foto Historia 2</div>
+            {fotosHistoria.length >= 2 ? (
+              fotosHistoria.slice(0, 2).map((foto, idx) => (
+                <div 
+                  key={foto.id || idx} 
+                  className={`relative overflow-hidden border border-(--gold)/20 rounded-sm bg-(--wine)/30 ${idx === 1 ? 'aspect-3/4 translate-y-8' : 'aspect-square'}`}
+                >
+                  <img src={foto.url} alt={foto.title || 'Historia Milione'} className="w-full h-full object-cover" />
+                </div>
+              ))
+            ) : (
+              <>
+                <div className="aspect-square bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/50 text-sm">Foto Historia 1</div>
+                <div className="aspect-3/4 bg-(--wine)/30 border border-(--gold)/20 flex items-center justify-center text-(--gold)/50 text-sm translate-y-8">Foto Historia 2</div>
+              </>
+            )}
           </div>
         </div>
       </section>
 
-      {/* 4. CATÁLOGO */}
+      {/* 4. CATÁLOGO (Alimentado dinámicamente desde listaProductos) */}
       <section id="catalogo" className="py-24 px-6 bg-(--wine)/10 border-y border-(--gold)/10 w-full">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
@@ -98,29 +137,34 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
           </div>
           
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {catalogData.map((product) => (
-              <div key={product.id} className="bg-(--wine-dark) border border-(--gold)/20 p-6 hover:border-(--gold)/60 transition-colors group">
-                <div className="aspect-video bg-[#2a1315] mb-6 flex items-center justify-center text-(--text-soft) text-xs">
-                  [Imagen: {product.name}]
+            {products.map((product) => (
+              <div key={product.id} className="bg-(--wine-dark) border border-(--gold)/20 p-6 hover:border-(--gold)/60 transition-colors group flex flex-col justify-between">
+                <div>
+                  <div className="aspect-video bg-[#2a1315] mb-6 flex items-center justify-center text-(--text-soft) text-xs overflow-hidden rounded-xs border border-(--gold)/10">
+                    {product.imagePlaceholder ? (
+                      <img src={product.imagePlaceholder} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                    ) : (
+                      <span>[Imagen: {product.name}]</span>
+                    )}
+                  </div>
+                  <span className="text-(--gold) text-xs uppercase tracking-wider mb-2 block font-semibold">{product.category}</span>
+                  <h3 className="font-serif text-2xl mb-3 text-(--cream)">{product.name}</h3>
+                  <p className="text-(--text-soft) text-sm leading-relaxed mb-4">{product.description}</p>
                 </div>
-                <span className="text-(--gold) text-xs uppercase tracking-wider mb-2 block">{product.category}</span>
-                <h3 className="font-serif text-2xl mb-3 text-(--cream)">{product.name}</h3>
-                <p className="text-(--text-soft) text-sm leading-relaxed">{product.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-{/* 5. CONTACTO, UBICACIÓN Y HORARIOS */}
+      {/* 5. CONTACTO, UBICACIÓN Y HORARIOS */}
       <section id="contacto" className="pt-24 pb-12 px-6 max-w-7xl mx-auto w-full">
         <div className="grid md:grid-cols-2 gap-12 lg:gap-16 mb-20 items-start">
           <div>
             <h2 className="font-serif text-4xl mb-8 text-(--gold)">Encontranos</h2>
             <div className="flex flex-col gap-8">
-              {/* Enlace directo a la ficha oficial de Chacinados Milione */}
               <a 
-                href="https://www.google.com/maps/place/Chacinados+Milione/@-33.13137,-61.9024004,8z/data=!4m10!1m2!2m1!1sSanta+Fe+99,+Chacabuco!3m6!1s0x95b925b807f8870b:0x2a9c57d9fe1ae50f!8m2!3d-34.6422175!4d-60.4660268" 
+                href="https://www.google.com/maps?cid=3070425639742530831" 
                 target="_blank" 
                 rel="noreferrer" 
                 className="flex items-start gap-4 hover:text-(--gold) transition-colors group"
@@ -134,7 +178,6 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
                 </div>
               </a>
 
-              {/* Teléfono */}
               <a 
                 href="tel:+542352471745" 
                 className="flex items-start gap-4 hover:text-(--gold) transition-colors group"
@@ -148,7 +191,6 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
                 </div>
               </a>
 
-              {/* Horarios */}
               <div className="flex items-start gap-4">
                 <Clock className="text-(--gold) shrink-0 mt-1 h-6 w-6" />
                 <div>
@@ -164,7 +206,6 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
             </div>
           </div>
 
-          {/* Iframe configurado con URL de embebido oficial */}
           <div className="w-full h-80 md:h-full min-h-80 rounded-sm overflow-hidden border border-(--gold)/20 shadow-lg">
             <iframe 
               title="Ubicación Chacinados Milione"
@@ -179,7 +220,6 @@ className="border border-(--cream)/40 text-(--cream) px-8 py-3.5 uppercase track
           </div>
         </div>
 
-        {/* Footer */}
         <footer className="border-t border-(--gold)/20 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs uppercase tracking-widest text-(--text-soft)">
           <span>© {new Date().getFullYear()} Chacinados Milione</span>
           <span>Producto Artesanal · Chacabuco</span>
